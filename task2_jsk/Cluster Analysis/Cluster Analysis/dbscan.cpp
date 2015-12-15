@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void dbscan_clustering(Point data[], int data_size, double eps, int minPts)
+void dbscan_clustering(Point data[], int data_size, double eps, int minPts, bool for_test)
 {
 	Status *data_status = new Status[data_size];
 	int i;
@@ -96,18 +96,21 @@ void dbscan_clustering(Point data[], int data_size, double eps, int minPts)
 					data_status[j] = CLUSTER;
 				}
 
-				sort(cluster.begin(), cluster.end());
-				sprintf(file_name, "clusters\\dataset%d\\dbscan\\%.1f\\%d\\%d.dat", (data_size == SIZE2) + 1, eps, minPts, cluster_num);
-				outFile.open(file_name, ios::out);
-				for (j = 0, count = cluster.size(); j < count; ++j)
+				if (!for_test)
 				{
-					outFile<<cluster[j];
-					if (j < count - 1)
+					sort(cluster.begin(), cluster.end());
+					sprintf(file_name, "clusters\\dataset%d\\dbscan\\%.1f\\%d\\%d.dat", (data_size == SIZE2) + 1, eps, minPts, cluster_num);
+					outFile.open(file_name, ios::out);
+					for (j = 0, count = cluster.size(); j < count; ++j)
 					{
-						outFile<<endl;
+						outFile<<cluster[j];
+						if (j < count - 1)
+						{
+							outFile<<endl;
+						}
 					}
+					outFile.close();
 				}
-				outFile.close();
 				++cluster_num;
 			}
 		}
@@ -133,7 +136,7 @@ void dbscan(Point data[], int data_size, const double para_eps[], const int para
 		{
 			sprintf(cmd, "del clusters\\dataset%d\\dbscan\\%.1f\\%d\\*.dat", (data_size == SIZE2) + 1, para_eps[i], para_minPts[j]);
 			system(cmd);
-			dbscan_clustering(data, data_size, para_eps[i], para_minPts[j]);
+			dbscan_clustering(data, data_size, para_eps[i], para_minPts[j], false);
 		}
 	}
 }

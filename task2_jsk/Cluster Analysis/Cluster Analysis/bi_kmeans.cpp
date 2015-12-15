@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void bi_kmeans_clustering(Point data[], int data_size, const int para_k[])
+void bi_kmeans_clustering(Point data[], int data_size, const int para_k[], int knum, bool for_test)
 {
 	int i;
 	int j;
@@ -34,7 +34,7 @@ void bi_kmeans_clustering(Point data[], int data_size, const int para_k[])
 	}
 	cur_cnum = 1;
 
-	for (i = 0; i < KNUM; ++i)
+	for (i = 0; i < knum; ++i)
 	{
 		while (cur_cnum < para_k[i])
 		{
@@ -145,20 +145,23 @@ void bi_kmeans_clustering(Point data[], int data_size, const int para_k[])
 			++cur_cnum;
 		}
 
-		for (j = 0; j < cur_cnum; ++j)
+		if (!for_test)
 		{
-			sprintf(file_name, "clusters\\dataset%d\\bisecting k-means\\%d\\%d.dat", (data_size == SIZE2) + 1, para_k[i], j);
-			outFile.open(file_name, ios::out);
-			size = cluster[j].size();
-			for (k = 0; k < size; ++k)
+			for (j = 0; j < cur_cnum; ++j)
 			{
-				outFile<<cluster[j][k];
-				if (k < size - 1)
+				sprintf(file_name, "clusters\\dataset%d\\bisecting k-means\\%d\\%d.dat", (data_size == SIZE2) + 1, para_k[i], j);
+				outFile.open(file_name, ios::out);
+				size = cluster[j].size();
+				for (k = 0; k < size; ++k)
 				{
-					outFile<<endl;
+					outFile<<cluster[j][k];
+					if (k < size - 1)
+					{
+						outFile<<endl;
+					}
 				}
+				outFile.close();
 			}
-			outFile.close();
 		}
 	}
 }
