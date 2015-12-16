@@ -26,7 +26,7 @@ void clustering(int data_size, const int para_k[], const double para_eps[], cons
 
 	sprintf(file_name, "dataset%d.dat", (data_size == SIZE2) + 1);
 	inFile.open(file_name, ios::in);
-	if (inFile.bad())
+	if (inFile.fail())
 	{
 		cout<<"The file "<<file_name<<"does not exist!"<<endl;
 		return;
@@ -53,7 +53,7 @@ void test(int data_size, const int paraT_k[], const double paraT_eps, const int 
 
 	sprintf(file_name, "dataset%d.dat", (data_size == SIZE2) + 1);
 	inFile.open(file_name, ios::in);
-	if (inFile.bad())
+	if (inFile.fail())
 	{
 		cout<<"The file "<<file_name<<"does not exist!"<<endl;
 		return;
